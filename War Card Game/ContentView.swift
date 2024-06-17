@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    // Define variables to store key values of game
+    @State var playerCard = "card13"
+    @State var cpuCard = "card13"
+    @State var playerScore = 0
+    @State var cpuScore = 0
+    
     var body: some View {
         ZStack {
             Image("background-wood-grain")
@@ -21,13 +28,20 @@ struct ContentView: View {
                 
                 HStack {
                     Spacer()
-                    Image("card2")
+                    Image(playerCard)
                     Spacer()
-                    Image("card3")
+                    Image(cpuCard)
                     Spacer()
                 }
                 Spacer()
-                Image("button")
+                
+                Button {
+                    deal()
+                } label: {
+                    Image("button")
+                }
+                .foregroundColor(.white)
+                
                 Spacer()
                 
                 HStack {
@@ -36,15 +50,16 @@ struct ContentView: View {
                         Text("Player")
                             .font(.headline)
                             .padding(.bottom, 10)
-                        Text("0")
+                        Text(String(playerScore))
                             .font(.largeTitle)
                     }
                     Spacer()
+        
                     VStack {
-                        Text("CPU")
+                        Text(String("CPU"))
                             .font(.headline)
                             .padding(.bottom, 10)
-                        Text("0")
+                        Text(String(cpuScore))
                             .font(.largeTitle)
                     }
                     Spacer()
@@ -52,6 +67,31 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 Spacer()
             }
+        }
+    }
+    
+    func deal() {
+        // Randomize player cards
+        var playerCardValue = Int.random(in: 2...14)
+        playerCard = "card" + String(playerCardValue)
+        
+        // Randomize CPU cards
+        var cpuCardValue = Int.random(in: 2...14)
+        cpuCard = "card" + String(cpuCardValue)
+        
+        // Update the scores
+        if playerCardValue > cpuCardValue {
+            // Increment player's score
+            playerScore += 1
+        }
+        // Update CPU's score
+        else if cpuCardValue > playerCardValue{
+            cpuScore += 1
+        }
+        else {
+            // Update both player and CPU's score
+            playerScore += 1
+            cpuScore += 1
         }
     }
 }
